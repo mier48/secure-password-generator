@@ -23,6 +23,7 @@ Secure Password Generator es una herramienta de línea de comandos (CLI) desarro
 5. [Arquitectura del Proyecto](#arquitectura-del-proyecto)
 6. [Contribuciones](#contribuciones)
 7. [Licencia](#licencia)
+8. [Autor](#autor)
 
 ---
 
@@ -31,5 +32,110 @@ Secure Password Generator es una herramienta de línea de comandos (CLI) desarro
 - **Rust:** Versión 1.70 o superior.
 - **Sistema operativo:** Compatible con Linux, macOS y Windows.
 
+Verifica que Rust y Cargo están instalados ejecutando:
+
+```bash
+rustc --version
+cargo --version
+```
+
 ---
 
+## Instalación
+
+Clona este repositorio en tu máquina local y compila el proyecto con Cargo:
+
+```bash
+git clone https://github.com/tuusuario/secure-password-generator.git
+cd secure-password-generator
+cargo build --release
+```
+
+Esto generará un binario en el directorio `target/release`.
+
+---
+
+## Uso
+
+Ejecuta el binario desde la línea de comandos para generar una contraseña. Ejemplo básico:
+
+```bash
+./secure-password-generator
+```
+
+### Opciones disponibles
+
+- **`-l, --length`**: Especifica la longitud de la contraseña (por defecto, 16 caracteres).
+- **`-s, --symbols`**: Incluye símbolos en la contraseña.
+- **`-n, --numbers`**: Incluye números en la contraseña.
+- **`-u, --uppercase`**: Incluye letras mayúsculas en la contraseña.
+
+Ejemplo de uso con todas las opciones:
+
+```bash
+./secure-password-generator -l 20 -s -n -u
+```
+
+---
+
+## Ejemplos
+
+Generar una contraseña de 12 caracteres con números y letras mayúsculas:
+
+```bash
+./secure-password-generator -l 12 -n -u
+```
+
+Generar una contraseña de 16 caracteres con símbolos:
+
+```bash
+./secure-password-generator -s
+```
+
+Generar una contraseña simple de 8 caracteres:
+
+```bash
+./secure-password-generator -l 8
+```
+
+---
+
+## Arquitectura del Proyecto
+
+Este proyecto está estructurado de la siguiente manera:
+
+- **`src/main.rs`**: Contiene el código principal del programa.
+- **`Cargo.toml`**: Archivo de configuración del proyecto que incluye dependencias y metadatos.
+- **`LICENSE`**: Licencia del proyecto.
+
+---
+
+## Contribuciones
+
+¡Las contribuciones son bienvenidas! Por favor, sigue estos pasos:
+
+1. Haz un fork del repositorio.
+2. Crea una rama nueva para tu función o corrección.
+3. Realiza tus cambios y haz un commit.
+4. Envía un pull request detallando los cambios.
+
+Ejemplo:
+
+```bash
+git checkout -b nueva-funcion
+git add .
+git commit -m "Agrega nueva función de ejemplo"
+git push origin nueva-funcion
+```
+
+---
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](./LICENSE) para más detalles.
+
+---
+
+## Autor
+
+Desarrollado por Alberto Mier (<info@albertomier.com>).
