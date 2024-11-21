@@ -1,5 +1,5 @@
 use clap::{Arg, Command};
-use rand::{distributions::Alphanumeric, Rng};
+use rand::Rng;
 use std::iter;
 
 fn main() {
@@ -21,33 +21,33 @@ fn main() {
                 .short('s')
                 .long("symbols")
                 .help("Incluir símbolos en la contraseña")
-                .takes_value(false),
+                .action(clap::ArgAction::SetTrue),
         )
         .arg(
             Arg::new("numbers")
                 .short('n')
                 .long("numbers")
                 .help("Incluir números en la contraseña")
-                .takes_value(false),
+                .action(clap::ArgAction::SetTrue),
         )
         .arg(
             Arg::new("uppercase")
                 .short('u')
                 .long("uppercase")
                 .help("Incluir mayúsculas en la contraseña")
-                .takes_value(false),
+                .action(clap::ArgAction::SetTrue),
         )
         .get_matches();
 
     // Obtención de valores
     let length: usize = matches
-        .value_of("length")
-        .unwrap_or("16")
+        .get_one::<String>("length")
+        .unwrap()
         .parse()
         .expect("Por favor, introduce un número válido para la longitud.");
-    let use_symbols = matches.is_present("symbols");
-    let use_numbers = matches.is_present("numbers");
-    let use_uppercase = matches.is_present("uppercase");
+    let use_symbols = matches.get_flag("symbols");
+    let use_numbers = matches.get_flag("numbers");
+    let use_uppercase = matches.get_flag("uppercase");
 
     // Generación de contraseña
     let password = generate_password(length, use_symbols, use_numbers, use_uppercase);
