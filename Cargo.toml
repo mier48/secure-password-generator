@@ -1,0 +1,8 @@
+[package]
+name = "secure-password-generator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = "4.2"        # Manejo de argumentos CLI
+rand = "0.8"        # Generación aleatoria segura
