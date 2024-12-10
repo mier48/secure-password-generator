@@ -1,12 +1,13 @@
+// main.rs
 use clap::{Arg, Command};
 use rand::Rng;
 use std::iter;
 
-fn main() {
-    // Configuración de CLI con clap
-    let matches = Command::new("Generador de Contraseñas Seguras")
+/// Configuración de la CLI con Clap
+fn build_cli() -> Command {
+    Command::new("Generador de Contraseñas Seguras")
         .version("1.0")
-        .author("Tu Nombre <tu.email@ejemplo.com>")
+        .author("Alberto Mier <info@albertomier.com>")
         .about("Genera contraseñas seguras con opciones personalizables")
         .arg(
             Arg::new("length")
@@ -37,9 +38,43 @@ fn main() {
                 .help("Incluir mayúsculas en la contraseña")
                 .action(clap::ArgAction::SetTrue),
         )
-        .get_matches();
+}
 
-    // Obtención de valores
+/// Genera una contraseña segura basada en las opciones proporcionadas
+fn generate_password(length: usize, use_symbols: bool, use_numbers: bool, use_uppercase: bool) -> String {
+    // Base de caracteres
+    let mut charset = String::from("abcdefghijklmnopqrstuvwxyz");
+
+    if use_uppercase {
+        charset.push_str("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    }
+    if use_numbers {
+        charset.push_str("0123456789");
+    }
+    if use_symbols {
+        charset.push_str("!@#$%^&*()-_=+[]{}|;:',.<>?/");
+    }
+
+    // Validación de que el conjunto de caracteres no esté vacío
+    if charset.is_empty() {
+        panic!("El conjunto de caracteres está vacío. Activa al menos una opción.");
+    }
+
+    // Generación aleatoria de la contraseña
+    let mut rng = rand::thread_rng();
+    iter::repeat_with(|| {
+        let idx = rng.gen_range(0..charset.len());
+        charset.chars().nth(idx).unwrap()
+    })
+    .take(length)
+    .collect()
+}
+
+fn main() {
+    // Configuración de la CLI
+    let matches = build_cli().get_matches();
+
+    // Obtención de valores desde los argumentos
     let length: usize = matches
         .get_one::<String>("length")
         .unwrap()
@@ -49,33 +84,36 @@ fn main() {
     let use_numbers = matches.get_flag("numbers");
     let use_uppercase = matches.get_flag("uppercase");
 
-    // Generación de contraseña
+    // Generación de la contraseña
     let password = generate_password(length, use_symbols, use_numbers, use_uppercase);
     println!("Contraseña generada: {}", password);
 }
 
-fn generate_password(length: usize, symbols: bool, numbers: bool, uppercase: bool) -> String {
-    // Base de caracteres
-    let mut charset = String::from("abcdefghijklmnopqrstuvwxyz");
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    if uppercase {
-        charset.push_str("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    }
-    if numbers {
-        charset.push_str("0123456789");
-    }
-    if symbols {
-        charset.push_str("!@#$%^&*()-_=+[]{}|;:',.<>?/");
+    #[test]
+    fn test_password_length() {
+        let password = generate_password(10, false, false, false);
+        assert_eq!(password.len(), 10);
     }
 
-    // Generación aleatoria
-    let mut rng = rand::thread_rng();
-    iter::repeat_with(|| {
-        charset
-            .chars()
-            .nth(rng.gen_range(0..charset.len()))
-            .unwrap()
-    })
-    .take(length)
-    .collect()
+    #[test]
+    fn test_password_symbols() {
+        let password = generate_password(20, true, false, false);
+        assert!(password.chars().any(|c| "!@#$%^&*()-_=+[]{}|;:',.<>?/".contains(c)));
+    }
+
+    #[test]
+    fn test_password_uppercase() {
+        let password = generate_password(15, false, false, true);
+        assert!(password.chars().any(|c| c.is_uppercase()));
+    }
+
+    #[test]
+    fn test_password_numbers() {
+        let password = generate_password(12, false, true, false);
+        assert!(password.chars().any(|c| c.is_numeric()));
+    }
 }
