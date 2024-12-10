@@ -46,7 +46,7 @@ cargo --version
 Clona este repositorio en tu máquina local y compila el proyecto con Cargo:
 
 ```bash
-git clone https://github.com/tuusuario/secure-password-generator.git
+git clone https://github.com/mier48/secure-password-generator.git
 cd secure-password-generator
 cargo build --release
 ```
