@@ -1,6 +1,6 @@
 # Secure Password Generator
 
-[![Rust Version](https://img.shields.io/badge/Rust-1.70+-blue.svg)](https://www.rust-lang.org/)
+[![Rust Version](https://img.shields.io/badge/Rust-1.0-blue.svg)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 Secure Password Generator es una herramienta de línea de comandos (CLI) desarrollada en Rust que permite generar contraseñas seguras y personalizables. Este proyecto está diseñado para ser eficiente, seguro y flexible, demostrando las capacidades de Rust en el manejo de generación aleatoria y seguridad básica.
